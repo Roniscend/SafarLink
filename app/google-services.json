@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "541355490770",
+    "project_id": "safarlink-ff44f",
+    "storage_bucket": "safarlink-ff44f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541355490770:android:1b3b1423cb1ac92394dc0b",
+        "android_client_info": {
+          "package_name": "com.example.safarlink"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "541355490770-osqlbjedo4ljq2fj1h4sq4hh6hjji79k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.safarlink",
+            "certificate_hash": "00a3a110217d977109b825e3abe845a5b3d20e98"
+          }
+        },
+        {
+          "client_id": "541355490770-h1j5n41gc80fnlvrgc9hspkpouiiekoa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxSOjNxdqUlzOzjvh5ccGfs-CEhSp9-nE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "541355490770-h1j5n41gc80fnlvrgc9hspkpouiiekoa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
