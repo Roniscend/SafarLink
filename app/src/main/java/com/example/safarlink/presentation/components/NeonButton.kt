@@ -20,14 +20,13 @@ fun NeonButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    // This is now a clean, standard button (Not Neon anymore)
     Button(
         onClick = onClick,
         modifier = modifier
             .fillMaxWidth()
             .height(50.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = BrandOrange, // Fixed: Uses the new Orange theme
+            containerColor = BrandOrange,
             contentColor = Color.White
         ),
         shape = RoundedCornerShape(8.dp)

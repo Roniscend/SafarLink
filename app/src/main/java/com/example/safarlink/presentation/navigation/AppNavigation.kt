@@ -27,8 +27,6 @@ fun AppNavigation(
         navController = navController,
         startDestination = startDestination
     ) {
-
-        // 1. LOGIN
         composable("login") {
             LoginScreen(
                 onNavigateToHome = {
@@ -41,8 +39,6 @@ fun AppNavigation(
                 }
             )
         }
-
-        // 2. SIGN UP
         composable("signup") {
             SignUpScreen(
                 onSignUpSuccess = {
@@ -55,8 +51,6 @@ fun AppNavigation(
                 }
             )
         }
-
-        // 3. HOME (Your Light Theme Screen)
         composable("home") {
             HomeScreen(
                 viewModel = homeViewModel,
@@ -69,15 +63,12 @@ fun AppNavigation(
                     navController.navigate("results")
                 },
                 onSignOut = {
-                    // Sign out and go back to Login
                     navController.navigate("login") {
                         popUpTo("home") { inclusive = true }
                     }
                 }
             )
         }
-
-        // 4. MAP
         composable("map") {
             val targetLocation = if (isSelectingPickup) pickup else drop
             MapPickerScreen(
@@ -90,8 +81,6 @@ fun AppNavigation(
                 }
             )
         }
-
-        // 5. RESULTS
         composable("results") {
             ResultsScreen(viewModel = homeViewModel)
         }

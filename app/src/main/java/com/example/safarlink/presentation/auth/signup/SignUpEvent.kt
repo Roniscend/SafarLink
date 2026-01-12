@@ -1,7 +1,6 @@
 package com.example.safarlink.presentation.auth.signup
 
 sealed interface SignUpEvent {
-    // This was missing or named incorrectly
     data class OnNameChange(val name: String) : SignUpEvent
 
     data class OnEmailChange(val email: String) : SignUpEvent

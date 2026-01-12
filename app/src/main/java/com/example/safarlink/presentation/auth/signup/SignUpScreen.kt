@@ -36,15 +36,12 @@ fun SignUpScreen(
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
-    // 1. Google Sign-In Launcher
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         viewModel.handleGoogleSignInResult(result.data)
     }
 
-    // 2. Handle Success Navigation
-    // FIX: Changed 'state.isSignUpSuccessful' to 'state.isSuccess'
     LaunchedEffect(key1 = state.isSuccess) {
         if (state.isSuccess) {
             Toast.makeText(context, "Sign Up Successful!", Toast.LENGTH_SHORT).show()
@@ -52,14 +49,12 @@ fun SignUpScreen(
         }
     }
 
-    // 3. Handle Errors
     LaunchedEffect(key1 = state.error) {
         state.error?.let { error ->
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
     }
 
-    // 4. UI Content
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -80,7 +75,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Name
         OutlinedTextField(
             value = state.name,
             onValueChange = { viewModel.onEvent(SignUpEvent.OnNameChange(it)) },
@@ -92,7 +86,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Email
         OutlinedTextField(
             value = state.email,
             onValueChange = { viewModel.onEvent(SignUpEvent.OnEmailChange(it)) },
@@ -105,7 +98,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Password
         var passwordVisible by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = state.password,
@@ -124,7 +116,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Confirm Password
         var confirmVisible by remember { mutableStateOf(false) }
         OutlinedTextField(
             value = state.confirmPassword,
@@ -143,7 +134,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Sign Up Button
         Button(
             onClick = { viewModel.onEvent(SignUpEvent.OnSignUpClick) },
             modifier = Modifier.fillMaxWidth().height(50.dp),
@@ -158,7 +148,6 @@ fun SignUpScreen(
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        // Google Sign Up
         OutlinedButton(
             onClick = { viewModel.initiateGoogleLogin(googleSignInLauncher) },
             modifier = Modifier.fillMaxWidth().height(50.dp),

@@ -28,7 +28,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-// import com.example.safarlink.R // Uncomment if you use R.drawable resources
 
 @Composable
 fun LoginScreen(
@@ -37,35 +36,23 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
-    // --- FIX START: Observe the current user for successful login ---
     val currentUser by viewModel.currentUser.collectAsState()
-
-    // Watch 'currentUser'. If it changes from null -> User, navigate immediately.
     LaunchedEffect(currentUser) {
         if (currentUser != null) {
             onNavigateToHome()
         }
     }
-    // --- FIX END ---------------------------------------------------
-
     val context = LocalContext.current
-
-    // 1. Google Sign-In Launcher
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
         viewModel.handleGoogleSignInResult(result.data)
     }
-
-    // 2. Error Handling
     LaunchedEffect(key1 = state.error) {
         state.error?.let { error ->
             Toast.makeText(context, error, Toast.LENGTH_LONG).show()
         }
     }
-
-    // 3. Main UI Content
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,7 +60,6 @@ fun LoginScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Header
         Text(
             text = "Welcome Back",
             style = MaterialTheme.typography.headlineMedium,
@@ -84,10 +70,7 @@ fun LoginScreen(
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
-
         Spacer(modifier = Modifier.height(32.dp))
-
-        // Email Input
         OutlinedTextField(
             value = state.email,
             onValueChange = { viewModel.onEvent(LoginEvent.OnEmailChange(it)) },
@@ -100,10 +83,7 @@ fun LoginScreen(
                 imeAction = ImeAction.Next
             )
         )
-
         Spacer(modifier = Modifier.height(16.dp))
-
-        // Password Input
         OutlinedTextField(
             value = state.password,
             onValueChange = { viewModel.onEvent(LoginEvent.OnPasswordChange(it)) },
@@ -125,10 +105,7 @@ fun LoginScreen(
                 imeAction = ImeAction.Done
             )
         )
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Login Button
         Button(
             onClick = { viewModel.onEvent(LoginEvent.OnLoginClick) },
             modifier = Modifier
@@ -145,10 +122,7 @@ fun LoginScreen(
                 Text(text = "Log In", fontSize = 18.sp)
             }
         }
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Divider
         Row(verticalAlignment = Alignment.CenterVertically) {
             HorizontalDivider(modifier = Modifier.weight(1f))
             Text(
@@ -158,10 +132,7 @@ fun LoginScreen(
             )
             HorizontalDivider(modifier = Modifier.weight(1f))
         }
-
         Spacer(modifier = Modifier.height(24.dp))
-
-        // Google Sign-In Button
         OutlinedButton(
             onClick = {
                 viewModel.initiateGoogleLogin(googleSignInLauncher)
@@ -174,10 +145,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.width(8.dp))
             Text(text = "Sign in with Google")
         }
-
         Spacer(modifier = Modifier.weight(1f))
-
-        // Footer
         Row(modifier = Modifier.padding(bottom = 16.dp)) {
             Text(text = "Don't have an account? ")
             Text(

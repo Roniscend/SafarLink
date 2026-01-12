@@ -28,7 +28,6 @@ class ResultsViewModel @Inject constructor(
         dropLng: Double
     ) {
         viewModelScope.launch {
-            // FIX: "name" changed to "address" to match LocationData.kt
             val pickupLocation = LocationData(
                 latitude = pickupLat,
                 longitude = pickupLng,

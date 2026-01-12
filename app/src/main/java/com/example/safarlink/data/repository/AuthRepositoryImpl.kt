@@ -26,37 +26,24 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    // --- UPDATED GOOGLE SIGN IN LOGIC ---
     override fun signInWithGoogle(idToken: String, isLoginOnly: Boolean): Flow<Resource<AuthResult>> = flow {
         emit(Resource.Loading(true))
         try {
             val credential = GoogleAuthProvider.getCredential(idToken, null)
-
-            // 1. Attempt to sign in (this creates the user if they don't exist)
             val authResult = auth.signInWithCredential(credential).await()
-
-            // 2. Check strict login mode
             if (isLoginOnly) {
                 val isNewUser = authResult.additionalUserInfo?.isNewUser == true
-
                 if (isNewUser) {
-                    // STOP! This is a new user trying to "Log In".
-                    // 1. Delete the user we just accidentally created.
                     try {
                         auth.currentUser?.delete()?.await()
                     } catch (e: Exception) {
-                        // If delete fails, just sign out
                         auth.signOut()
                     }
-
-                    // 2. Return Error
                     emit(Resource.Error("Account not found. Please Sign Up first."))
                 } else {
-                    // User existed before. Success!
                     emit(Resource.Success(authResult))
                 }
             } else {
-                // We are in Sign Up mode, so creating a new user is allowed.
                 emit(Resource.Success(authResult))
             }
 

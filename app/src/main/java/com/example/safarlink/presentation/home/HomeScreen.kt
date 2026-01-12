@@ -37,7 +37,6 @@ fun HomeScreen(
     val userEmail = FirebaseAuth.getInstance().currentUser?.email ?: "User"
     var showMenu by remember { mutableStateOf(false) }
 
-    // Search State
     var searchText by remember { mutableStateOf("") }
     val focusManager = LocalFocusManager.current
 
@@ -50,7 +49,6 @@ fun HomeScreen(
                     .background(Color.White)
                     .statusBarsPadding()
             ) {
-                // --- HEADER ROW (Location + Profile) ---
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -58,7 +56,6 @@ fun HomeScreen(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
-                    // LEFT: Current Location
                     Column(modifier = Modifier.weight(1f).clickable { onOpenMap(true) }) {
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Icon(Icons.Default.LocationOn, "Loc", tint = Color(0xFFFF5252), modifier = Modifier.size(20.dp))
@@ -75,8 +72,6 @@ fun HomeScreen(
                             modifier = Modifier.padding(start = 24.dp)
                         )
                     }
-
-                    // RIGHT: Profile
                     Box {
                         IconButton(onClick = { showMenu = true }) {
                             Icon(Icons.Default.AccountCircle, "Profile", modifier = Modifier.size(32.dp), tint = Color.Gray)
@@ -99,8 +94,6 @@ fun HomeScreen(
                         }
                     }
                 }
-
-                // --- SEARCH BAR (Fixed Text Color) ---
                 Box(modifier = Modifier.padding(horizontal = 16.dp).padding(bottom = 12.dp)) {
                     OutlinedTextField(
                         value = searchText,
@@ -125,18 +118,15 @@ fun HomeScreen(
                         },
                         shape = RoundedCornerShape(12.dp),
                         singleLine = true,
-
-                        // --- FIX IS HERE: Force Input Text to be BLACK ---
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedTextColor = Color.Black,   // Text color when typing
-                            unfocusedTextColor = Color.Black, // Text color when not focused
+                            focusedTextColor = Color.Black,
+                            unfocusedTextColor = Color.Black,
                             cursorColor = Color(0xFFFF5252),
                             unfocusedBorderColor = Color(0xFFE0E0E0),
                             focusedBorderColor = Color(0xFFFF5252),
                             focusedContainerColor = Color.White,
                             unfocusedContainerColor = Color.White
                         ),
-
                         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
                     )
                 }
@@ -153,7 +143,6 @@ fun HomeScreen(
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                // --- RESULT DISPLAY ---
                 if (drop != null) {
                     Text("Selected Destination:", style = MaterialTheme.typography.labelMedium, color = Color.Gray)
                     Spacer(modifier = Modifier.height(4.dp))
@@ -161,15 +150,15 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(24.dp))
                     Button(
                         onClick = onSearchClick,
-                        modifier = Modifier.fillMaxWidth().height(50.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(50.dp),
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Black)
                     ) {
                         Text("Compare Prices", fontSize = 18.sp, color = Color.White)
                     }
                 }
             }
-
-            // --- SUGGESTIONS LIST OVERLAY ---
             if (suggestions.isNotEmpty()) {
                 Card(
                     modifier = Modifier
@@ -190,7 +179,7 @@ fun HomeScreen(
                                         viewModel.clearSuggestions()
                                         focusManager.clearFocus()
                                         viewModel.updateDrop(place)
-                                        onOpenMap(false) // Open map to confirm
+                                        onOpenMap(false)
                                     }
                                     .padding(12.dp),
                                 verticalAlignment = Alignment.CenterVertically
@@ -202,7 +191,7 @@ fun HomeScreen(
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     fontSize = 14.sp,
-                                    color = Color.Black // Suggestions text also Black
+                                    color = Color.Black
                                 )
                             }
                             HorizontalDivider(color = Color(0xFFEEEEEE))

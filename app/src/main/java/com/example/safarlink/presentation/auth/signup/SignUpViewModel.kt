@@ -32,7 +32,7 @@ class SignUpViewModel @Inject constructor(
             is SignUpEvent.OnPasswordChange -> _state.update { it.copy(password = event.password, error = null) }
             is SignUpEvent.OnConfirmPasswordChange -> _state.update { it.copy(confirmPassword = event.confirmPassword, error = null) }
             is SignUpEvent.OnSignUpClick -> performSignUp()
-            is SignUpEvent.OnGoogleSignInClick -> { /* Handled in UI */ }
+            is SignUpEvent.OnGoogleSignInClick -> {}
         }
     }
 
@@ -66,7 +66,6 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
-    // --- GOOGLE SIGN UP LOGIC ---
     fun initiateGoogleLogin(launcher: ActivityResultLauncher<Intent>) {
         val signInIntent = googleSignInClient.signInIntent
         launcher.launch(signInIntent)
@@ -91,8 +90,6 @@ class SignUpViewModel @Inject constructor(
     private fun authWithGoogleFirebase(idToken: String) {
         _state.update { it.copy(isLoading = true) }
         viewModelScope.launch {
-            // FIX: Pass 'isLoginOnly = false'.
-            // This tells the repo: "It is okay to create a new user here."
             repository.signInWithGoogle(idToken, isLoginOnly = false).collect { result ->
                 handleAuthResult(result)
             }

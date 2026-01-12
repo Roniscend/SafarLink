@@ -46,7 +46,7 @@ fun ResultsScreen(viewModel: HomeViewModel) {
             .padding(16.dp)
     ) {
         Text(
-            "Select Ride", // Changed title since we aren't showing "Cheapest" anymore
+            "Select Ride",
             fontSize = 22.sp,
             fontWeight = FontWeight.Bold,
             color = Color.Black,
@@ -60,11 +60,8 @@ fun ResultsScreen(viewModel: HomeViewModel) {
                 RideOptionCard(
                     option = option,
                     onBookClick = {
-                        // --- RAPIDO / NAMMA YATRI LOGIC (Copy Address) ---
                         if (option.deepLinkUri.startsWith("PACKAGE:")) {
-
                             scope.launch(Dispatchers.IO) {
-                                // 1. Reverse Geocode: Turn Coordinates into Text Address
                                 var finalAddress = dropLocation?.address ?: ""
                                 try {
                                     if (dropLocation != null) {
@@ -81,8 +78,6 @@ fun ResultsScreen(viewModel: HomeViewModel) {
                                 } catch (e: Exception) {
                                     e.printStackTrace()
                                 }
-
-                                // 2. Copy to Clipboard & Launch App
                                 withContext(Dispatchers.Main) {
                                     if (finalAddress.isNotBlank()) {
                                         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -92,8 +87,6 @@ fun ResultsScreen(viewModel: HomeViewModel) {
                                     } else {
                                         Toast.makeText(context, "Opening ${option.providerName}...", Toast.LENGTH_SHORT).show()
                                     }
-
-                                    // Launch App
                                     val launchIntent = context.packageManager.getLaunchIntentForPackage(option.packageName)
                                     if (launchIntent != null) {
                                         context.startActivity(launchIntent)
@@ -106,9 +99,7 @@ fun ResultsScreen(viewModel: HomeViewModel) {
                                     }
                                 }
                             }
-                        }
-                        // --- UBER / OLA LOGIC (Direct Deep Link) ---
-                        else {
+                        } else {
                             try {
                                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(option.deepLinkUri))
                                 context.startActivity(intent)
@@ -140,7 +131,6 @@ fun RideOptionCard(option: RideOption, onBookClick: () -> Unit) {
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon
             Surface(
                 color = Color(0xFFEEEEEE),
                 shape = RoundedCornerShape(8.dp),
@@ -158,22 +148,20 @@ fun RideOptionCard(option: RideOption, onBookClick: () -> Unit) {
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Name (Uber, Rapido, etc.)
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = option.providerName,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 18.sp, // Made slightly bigger since price is gone
+                    fontSize = 18.sp,
                     color = Color.Black
                 )
             }
 
-            // Button (NO PRICE DISPLAY HERE)
             Button(
                 onClick = onBookClick,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFFFFC107), // Yellow
-                    contentColor = Color.Black        // Black Text
+                    containerColor = Color(0xFFFFC107),
+                    contentColor = Color.Black
                 ),
                 contentPadding = PaddingValues(horizontal = 24.dp, vertical = 0.dp),
                 modifier = Modifier.height(40.dp),

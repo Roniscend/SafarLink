@@ -28,33 +28,28 @@ import org.osmdroid.views.MapView
 
 @Composable
 fun MapPickerScreen(
-    initialLat: Double = 12.9716, // Bangalore default
+    initialLat: Double = 12.9716,
     initialLng: Double = 77.5946,
     onLocationSelected: (LocationData) -> Unit
 ) {
     val context = LocalContext.current
 
-    // 1. Initialize OSM Configuration (Required!)
     LaunchedEffect(Unit) {
         Configuration.getInstance().userAgentValue = context.packageName
     }
 
-    // State to hold the center location
     var centerGeoPoint by remember { mutableStateOf(GeoPoint(initialLat, initialLng)) }
 
     Box(modifier = Modifier.fillMaxSize()) {
 
-        // 2. The Map View (OpenStreetMap)
         AndroidView(
             modifier = Modifier.fillMaxSize(),
             factory = { ctx ->
                 MapView(ctx).apply {
-                    setTileSource(TileSourceFactory.MAPNIK) // The standard free OSM style
+                    setTileSource(TileSourceFactory.MAPNIK)
                     setMultiTouchControls(true)
-                    controller.setZoom(18.0) // Zoomed in closer for better picking
+                    controller.setZoom(18.0)
                     controller.setCenter(centerGeoPoint)
-
-                    // Listener to track dragging
                     addMapListener(object : MapListener {
                         override fun onScroll(event: ScrollEvent?): Boolean {
                             event?.source?.mapCenter?.let {
@@ -68,19 +63,16 @@ fun MapPickerScreen(
             }
         )
 
-        // 3. Center Pin (Static Overlay)
         Icon(
             imageVector = Icons.Default.LocationOn,
             contentDescription = "Center Pin",
-            // FIXED: Replaced 'NeonBlue' with 'BrandOrange'
             tint = BrandOrange,
             modifier = Modifier
                 .size(48.dp)
                 .align(Alignment.Center)
-                .offset(y = (-24).dp) // Offset to make the pin tip match the center
+                .offset(y = (-24).dp)
         )
 
-        // 4. Confirm Button Card
         Card(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -106,7 +98,6 @@ fun MapPickerScreen(
                     onClick = {
                         onLocationSelected(
                             LocationData(
-                                // Create a formatted name string
                                 address = "Lat: ${String.format("%.4f", centerGeoPoint.latitude)}, Lng: ${String.format("%.4f", centerGeoPoint.longitude)}",
                                 latitude = centerGeoPoint.latitude,
                                 longitude = centerGeoPoint.longitude

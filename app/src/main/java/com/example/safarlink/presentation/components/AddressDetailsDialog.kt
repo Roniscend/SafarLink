@@ -17,11 +17,10 @@ import com.example.safarlink.ui.theme.BrandOrange
 fun AddressDetailsDialog(
     address: String,
     onDismiss: () -> Unit,
-    onConfirm: (String, String, String) -> Unit // flatNo, landmark, fullAddress
+    onConfirm: (String, String, String) -> Unit
 ) {
     var flatNo by remember { mutableStateOf("") }
     var landmark by remember { mutableStateOf("") }
-    // Pre-fill with the address from the map
     var fullAddress by remember { mutableStateOf(address) }
 
     Dialog(onDismissRequest = onDismiss) {
@@ -40,8 +39,6 @@ fun AddressDetailsDialog(
                     color = Color.Black
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-
-                // Flat / House No
                 OutlinedTextField(
                     value = flatNo,
                     onValueChange = { flatNo = it },
@@ -50,8 +47,6 @@ fun AddressDetailsDialog(
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-
-                // Landmark
                 OutlinedTextField(
                     value = landmark,
                     onValueChange = { landmark = it },
@@ -60,8 +55,6 @@ fun AddressDetailsDialog(
                     singleLine = true
                 )
                 Spacer(modifier = Modifier.height(12.dp))
-
-                // Full Address (Editable)
                 OutlinedTextField(
                     value = fullAddress,
                     onValueChange = { fullAddress = it },
@@ -70,11 +63,12 @@ fun AddressDetailsDialog(
                     maxLines = 3
                 )
                 Spacer(modifier = Modifier.height(24.dp))
-
                 Button(
                     onClick = { onConfirm(flatNo, landmark, fullAddress) },
                     colors = ButtonDefaults.buttonColors(containerColor = BrandOrange),
-                    modifier = Modifier.fillMaxWidth().height(50.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(50.dp),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Text("SAVE ADDRESS", fontSize = 16.sp, fontWeight = FontWeight.Bold)

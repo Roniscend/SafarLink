@@ -1,7 +1,7 @@
 package com.example.safarlink.presentation.auth.signup
 
 data class SignUpState(
-    val name: String = "", // Make sure this line exists
+    val name: String = "",
     val email: String = "",
     val password: String = "",
     val confirmPassword: String = "",
