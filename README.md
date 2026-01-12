@@ -65,15 +65,22 @@ SafarLink follows a strict **Clean Architecture** approach:
 
 ---
 
+## 🎥 Videos
+
+https://github.com/user-attachments/assets/f882e44e-fa73-47f6-88c6-644d15364340.mp4
+
+---
+
 ## 📸 Screenshots
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f882e44e-fa73-47f6-88c6-644d15364340" width="220" />
   <img src="https://github.com/user-attachments/assets/16460f27-ad10-46e6-9d84-20bd54ea0281" width="220" />
   <img src="https://github.com/user-attachments/assets/11ab9071-6f5c-4c27-80ee-92bbcca32956" width="220" />
+  <img src="https://github.com/user-attachments/assets/f68fed0b-af0c-4d91-b0cb-36eeda801f9e" width="220" />
 </p>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/f68fed0b-af0c-4d91-b0cb-36eeda801f9e" width="220" />
   <img src="https://github.com/user-attachments/assets/74062198-e4df-4fa9-b731-5a93053dc1b4" width="220" />
 </p>
+
+---
